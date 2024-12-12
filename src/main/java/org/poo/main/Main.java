@@ -3,15 +3,22 @@ package org.poo.main;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.checker.Checker;
 import org.poo.checker.CheckerConstants;
 import org.poo.fileio.ObjectInput;
+import org.poo.fileio.UserInput;
+import org.poo.main.objects.*;
+import org.poo.main.objects.Actions.Action;
+import org.poo.main.objects.Actions.PrintUsers;
+import org.poo.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
@@ -72,8 +79,12 @@ public final class Main {
         File file = new File(CheckerConstants.TESTS_PATH + filePath1);
         ObjectInput inputData = objectMapper.readValue(file, ObjectInput.class);
 
-        ArrayNode output = objectMapper.createArrayNode();
+        Input get = Input.getInstance(inputData);
+        Output JSON = Output.getInstance();
 
+        Bank bank = Bank.getInstance();
+        Workflow work = new Workflow();
+        work.runBank();
         /*
          * TODO Implement your function here
          *
@@ -92,9 +103,12 @@ public final class Main {
          * output.add(objectNode);
          *
          */
-
-        ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
-        objectWriter.writeValue(new File(filePath2), output);
+        Utils.resetRandom();
+        Input.deleteInstance();
+        Bank.deleteInstance();
+        ObjectWriter objectWriter = JSON.mapper.writerWithDefaultPrettyPrinter();
+        objectWriter.writeValue(new File(filePath2), JSON.output);
+        Output.deleteInstance();
     }
 
     /**
