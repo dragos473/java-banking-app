@@ -19,7 +19,7 @@ public class PayOnline implements Action{
             boolean found = false;
             for (Account a : user.getAccounts()) {
                 Card c= a.getCard(input.getCardNumber()) ;
-                if (c != null && c.isAvailable()) {
+                if (c != null) {
                 double rate = Bank.getInstance().getExchange().getExchangeRate(input.getCurrency(), a.getCurrency());
                 double amount = input.getAmount() * rate;
                 a.pay(amount);
@@ -41,15 +41,15 @@ public class PayOnline implements Action{
                 JSON.output.add(out);
             }
         } catch (Exception e) {
-            Output JSON = Output.getInstance();
-            ObjectNode out = JSON.mapper.createObjectNode();
-            out.put("command", "payOnline");
-            ObjectNode output = JSON.mapper.createObjectNode();
-            output.put("description", "Insufficient funds");
-            output.put("timestamp", input.getTimestamp());
-            out.put("output", output);
-            out.put("timestamp", input.getTimestamp());
-            JSON.output.add(out);
+//            Output JSON = Output.getInstance();
+//            ObjectNode out = JSON.mapper.createObjectNode();
+//            out.put("command", "payOnline");
+//            ObjectNode output = JSON.mapper.createObjectNode();
+//            output.put("description", "Insufficient funds");
+//            output.put("timestamp", input.getTimestamp());
+//            out.put("output", output);
+//            out.put("timestamp", input.getTimestamp());
+//            JSON.output.add(out);
         }
     }
 }

@@ -13,6 +13,19 @@ public class DeleteAccount implements Action{
     @Override
     public void execute(CommandInput input) {
         try {
+            if (Bank.getInstance().getUser(input.getEmail()).getAccount(input.getAccount())
+                    .getBalance() != 0) {
+                Output JSON = Output.getInstance();
+                ObjectNode out = JSON.mapper.createObjectNode();
+                out.put("command", "deleteAccount");
+                ObjectNode output = JSON.mapper.createObjectNode();
+                output.put("error", "Account couldn't be deleted - see org.poo.transactions for details")
+                        .put("timestamp", input.getTimestamp());
+                out.put("output", output);
+                out.put("timestamp", input.getTimestamp());
+                JSON.output.add(out);
+                return;
+            }
             Bank.getInstance().getUser(input.getEmail()).removeAccount(input.getAccount());
         } catch (Exception e) {
             e.printStackTrace();

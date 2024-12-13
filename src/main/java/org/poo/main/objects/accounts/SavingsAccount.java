@@ -2,6 +2,7 @@ package org.poo.main.objects.accounts;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.poo.main.Transactions;
 import org.poo.main.objects.accounts.Cards.Card;
 import org.poo.utils.Utils;
 
@@ -13,7 +14,9 @@ public class SavingsAccount implements Account {
     private double balance;
     private String currency;
     private ArrayList<Card> cards;
+    private String alias;
     private double interestRate;
+
 
     public void addCard(Card card) {
         //card.setBalance(balance);
@@ -28,6 +31,7 @@ public class SavingsAccount implements Account {
         }
         return null;
     }
+
     @Override
     public void removeCard(String cardNumber) {
         cards.removeIf(c -> c.getCardNumber().equals(cardNumber));
@@ -41,12 +45,15 @@ public class SavingsAccount implements Account {
             throw new Exception("Insufficient funds");
         }
     }
+    public void deposit(double amount) {
+        balance += amount;
+    }
+
     public void cardCleanup() {
         cards.removeIf(c -> !c.isAvailable());
     }
 
     public void register(String currency, double interestRate) {
-        //TODO: register the account in the database
         IBAN = Utils.generateIBAN();
         balance = 0.0;
         this.currency = currency;

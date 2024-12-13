@@ -1,6 +1,7 @@
 package org.poo.main.objects.accounts;
 import lombok.Getter;
 import lombok.Setter;
+import org.poo.main.Transactions;
 import org.poo.main.objects.accounts.Cards.Card;
 import org.poo.utils.Utils;
 
@@ -13,6 +14,7 @@ public class ClassicAccount implements Account {
     private double balance;
     private String currency;
     private ArrayList<Card> cards;
+    private String alias;
     private double interestRate;
 
     public void addCard(Card card) {
@@ -40,6 +42,11 @@ public class ClassicAccount implements Account {
         } else {
             throw new Exception("Insufficient funds");
         }
+    }
+
+    @Override
+    public void deposit(double amount) {
+        balance += amount;
     }
 
     public void cardCleanup() {

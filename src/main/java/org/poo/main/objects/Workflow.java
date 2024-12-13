@@ -16,6 +16,7 @@ public class Workflow {
             } catch (NoSuchMethodException e) {
                 System.out.println("No such method: " + commandInput.getCommand());
             }
+//            System.out.println(commandInput.getTimestamp());
         }
     }
 
