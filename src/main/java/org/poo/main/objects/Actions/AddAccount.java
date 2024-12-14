@@ -28,7 +28,7 @@ public class AddAccount  implements Action {
             ObjectNode out = Output.getInstance().mapper.createObjectNode()
                     .put("description", "New account created")
                     .put("timestamp", input.getTimestamp());
-            Bank.getInstance().getUser(input.getEmail()).getTransactions().addTransaction(out);
+            Bank.getInstance().getUser(input.getEmail()).getTransactions().addTransaction(out, account.getIBAN());
         } catch (Exception e) {
             e.printStackTrace();
         }

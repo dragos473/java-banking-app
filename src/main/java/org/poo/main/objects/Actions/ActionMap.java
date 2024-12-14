@@ -20,6 +20,13 @@ public class ActionMap {
         map.put("sendMoney", new SendMoney());
         map.put("setAlias", new SetAlias());
         map.put("printTransactions", new PrintTransactions());
+        map.put("setMinimumBalance", new SetMinBalance());
+        map.put("checkCardStatus", new CheckCardStatus());
+        map.put("splitPayment", new SplitPayment());
+        map.put("report", new Report());
+        map.put("spendingsReport", new SpendingReport());
+        map.put("changeInterestRate", new ChangeInterestRate());
+        map.put("addInterest", new AddInterestRate());
     }
     public void execute(CommandInput input) throws NoSuchMethodException {
         if (!map.containsKey(input.getCommand())) {

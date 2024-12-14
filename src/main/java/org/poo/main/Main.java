@@ -58,6 +58,9 @@ public final class Main {
 
         for (File file : sortedFiles) {
             String filepath = CheckerConstants.OUT_PATH + file.getName();
+//            if(!filepath.contains("18")) {
+//                continue;
+//            }
             File out = new File(filepath);
             boolean isCreated = out.createNewFile();
             if (isCreated) {

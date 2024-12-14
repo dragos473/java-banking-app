@@ -3,23 +3,28 @@ package org.poo.main.objects.accounts;
 import org.poo.main.Transactions;
 import org.poo.main.objects.accounts.Cards.Card;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public interface Account {
+    //Setters
+    void setAlias(String alias);
+    void setBalance(double balance);
+    void setMinBalance(double minBalance);
+    //Getters
     String getIBAN();
-    double getBalance();
     String getCurrency();
     String getAlias();
-    void setAlias(String alias);
+    double getBalance();
+    double getMinBalance();
     double getInterestRate();
-    ArrayList<Card> getCards();
+    List<Card> getCards();
+    //Card methods
     void addCard(Card card);
     Card getCard(String cardNumber);
     void removeCard(String cardNumber);
-    void setBalance(double balance);
+    //Account methods
     void pay(double amount) throws Exception;
     void deposit(double amount);
-    void cardCleanup();
     void register(String currency, double interestRate);
 }

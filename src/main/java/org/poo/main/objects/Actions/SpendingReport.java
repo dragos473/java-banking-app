@@ -1,0 +1,34 @@
+package org.poo.main.objects.Actions;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.poo.fileio.CommandInput;
+import org.poo.main.objects.Bank;
+import org.poo.main.objects.Output;
+import org.poo.main.objects.User;
+
+public class SpendingReport implements Action{
+    @Override
+    public void execute(CommandInput input) {
+        try {
+            for (User u : Bank.getInstance().getUsers()) {
+                if(u.getAccount(input.getAccount()) == null) {
+                    continue;
+                }
+                u.getTransactions().spendingReport(input.getStartTimestamp(), input.getEndTimestamp(),
+                        u.getAccount(input.getAccount()), input.getTimestamp());
+                return;
+            }
+            throw new Exception("Account not found");
+        } catch (Exception e) {
+            Output JSON = Output.getInstance();
+            ObjectNode err = JSON.mapper.createObjectNode();
+            err.put("description", e.getLocalizedMessage())
+                    .put("timestamp", input.getTimestamp());
+            ObjectNode out = JSON.mapper.createObjectNode();
+            out.put("command", "spendingsReport")
+                    .put("timestamp", input.getTimestamp())
+                    .put("output", err);
+            JSON.output.add(out);
+        }
+    }
+}

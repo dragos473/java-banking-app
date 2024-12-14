@@ -12,22 +12,41 @@ import org.poo.main.objects.accounts.Cards.Card;
 
 public class PayOnline implements Action{
     //Exception err = new Exception("Insufficient funds");
+    User user;
+    Card usedCard;
     @Override
     public void execute(CommandInput input) {
         try {
-            User user = Bank.getInstance().getUser(input.getEmail());
+            user = Bank.getInstance().getUser(input.getEmail());
             boolean found = false;
             for (Account a : user.getAccounts()) {
                 Card c= a.getCard(input.getCardNumber()) ;
-                if (c != null) {
+                if (c == null) {
+                    continue;
+                }
+                if (!c.isAvailable()) {
+                    ObjectNode output = Output.getInstance().mapper.createObjectNode()
+                            .put("description", "The card is frozen")
+                            .put("timestamp", input.getTimestamp());
+                    user.getTransactions().addTransaction(output, a.getIBAN());
+                    return;
+                }
                 double rate = Bank.getInstance().getExchange().getExchangeRate(input.getCurrency(), a.getCurrency());
                 double amount = input.getAmount() * rate;
                 a.pay(amount);
+                usedCard = c;
                 c.payed();
-                a.cardCleanup();
                 found = true;
+
+                ObjectNode output = Output.getInstance().mapper.createObjectNode()
+                        .put("amount", amount)
+                        .put("commerciant", input.getCommerciant())
+                        .put("description", "Card payment")
+//                        .put("account", a.getIBAN())
+                        .put("timestamp", input.getTimestamp());
+                user.getTransactions().addTransaction(output, a.getIBAN());
+
                 break;
-                }
             }
             if (!found) {
                 Output JSON = Output.getInstance();
@@ -41,15 +60,18 @@ public class PayOnline implements Action{
                 JSON.output.add(out);
             }
         } catch (Exception e) {
-//            Output JSON = Output.getInstance();
-//            ObjectNode out = JSON.mapper.createObjectNode();
-//            out.put("command", "payOnline");
-//            ObjectNode output = JSON.mapper.createObjectNode();
-//            output.put("description", "Insufficient funds");
-//            output.put("timestamp", input.getTimestamp());
-//            out.put("output", output);
-//            out.put("timestamp", input.getTimestamp());
-//            JSON.output.add(out);
+            if (e.getMessage().equals("Funds below minimum balance")) {
+                //usedCard.freeze();
+                ObjectNode output = Output.getInstance().mapper.createObjectNode()
+                        .put("description", "You have reached the minimum amount of funds, the card will be frozen")
+                        .put("timestamp", input.getTimestamp());
+                user.getTransactions().addTransaction(output, input.getAccount());
+            } else {
+                ObjectNode output = Output.getInstance().mapper.createObjectNode()
+                        .put("description", "Insufficient funds")
+                        .put("timestamp", input.getTimestamp());
+                user.getTransactions().addTransaction(output, input.getAccount());
+            }
         }
     }
 }

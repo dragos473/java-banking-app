@@ -11,13 +11,22 @@ import java.util.ArrayList;
 @Getter
 public class ClassicAccount implements Account {
     private String IBAN;
-    private double balance;
     private String currency;
-    private ArrayList<Card> cards;
     private String alias;
+    private double balance;
+    private double minBalance;
     private double interestRate;
+    private ArrayList<Card> cards;
 
     public void addCard(Card card) {
+//        for (int i = 0; i < cards.size(); i++) {
+//            if (!cards.get(i).isAvailable()) {
+//                cards.get(i).setCardNumber(card.getCardNumber());
+//                cards.get(i).unfreeze();
+//                cards.get(i).setBalance(balance);
+//                return;
+//            }
+//        }
         cards.add(card);
         cards.getLast().setBalance(balance);
     }
@@ -37,10 +46,14 @@ public class ClassicAccount implements Account {
 
     }
     public void pay(double amount) throws Exception {
-        if (balance >= amount) {
+
+        if (balance - amount > 0) {
             balance -= amount;
         } else {
-            throw new Exception("Insufficient funds");
+            if (balance < amount) {
+                throw new Exception("Insufficient funds");
+            }
+            throw new Exception("Funds below minimum balance");
         }
     }
 
@@ -49,13 +62,10 @@ public class ClassicAccount implements Account {
         balance += amount;
     }
 
-    public void cardCleanup() {
-        cards.removeIf(c -> !c.isAvailable());
-    }
-
     public void register(String currency, double interestRate) {
         IBAN = Utils.generateIBAN();
         balance = 0.0;
+        minBalance = 0.0;
         this.currency = currency;
         this.interestRate = interestRate;
         cards = new ArrayList<>();

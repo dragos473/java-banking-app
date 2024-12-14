@@ -16,6 +16,14 @@ public class DefaultCard implements Card {
         available = true;
     }
 
+    public void freeze() {
+        available = false;
+    }
+
+    public void unfreeze() {
+        available = true;
+    }
+
     @Override
     public void payed() {
         available = true;

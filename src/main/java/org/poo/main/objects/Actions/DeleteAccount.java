@@ -16,6 +16,7 @@ public class DeleteAccount implements Action{
             if (Bank.getInstance().getUser(input.getEmail()).getAccount(input.getAccount())
                     .getBalance() != 0) {
                 Output JSON = Output.getInstance();
+
                 ObjectNode out = JSON.mapper.createObjectNode();
                 out.put("command", "deleteAccount");
                 ObjectNode output = JSON.mapper.createObjectNode();
@@ -24,12 +25,16 @@ public class DeleteAccount implements Action{
                 out.put("output", output);
                 out.put("timestamp", input.getTimestamp());
                 JSON.output.add(out);
+
                 return;
             }
+
             Bank.getInstance().getUser(input.getEmail()).removeAccount(input.getAccount());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Output JSON = Output.getInstance();
         ObjectNode out = JSON.mapper.createObjectNode();
         out.put("command", "deleteAccount");

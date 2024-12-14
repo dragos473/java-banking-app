@@ -36,7 +36,7 @@ public class PrintUsers implements Action {
                     if (card.isAvailable()) {
                         cardNode.put("status", "active");
                     } else {
-                        cardNode.put("status", "inactive");
+                        cardNode.put("status", "frozen");
                     }
                     cardArr.add(cardNode);
                 }

@@ -16,7 +16,16 @@ public class OneTimeUseCard implements Card {
         available = true;
     }
 
-    public void payed() {
+    @Override
+    public void freeze() {
         available = false;
+    }
+
+    public void unfreeze() {
+        available = true;
+    }
+
+    public void payed() {
+        cardNumber = Utils.generateCardNumber();
     }
 }

@@ -11,19 +11,27 @@ import java.util.ArrayList;
 @Getter
 public class SavingsAccount implements Account {
     private String IBAN;
-    private double balance;
     private String currency;
-    private ArrayList<Card> cards;
     private String alias;
+    private double balance;
+    private double minBalance;
     private double interestRate;
-
+    private ArrayList<Card> cards;
 
     public void addCard(Card card) {
-        //card.setBalance(balance);
+//        for (int i = 0; i < cards.size(); i++) {
+//            if (!cards.get(i).isAvailable()) {
+//                cards.get(i).setCardNumber(card.getCardNumber());
+//                cards.get(i).unfreeze();
+//                cards.get(i).setBalance(balance);
+//                return;
+//            }
+//        }
         cards.add(card);
         cards.getLast().setBalance(balance);
     }
     public Card getCard(String cardNumber) {
+
         for (Card c : cards) {
             if (c.getCardNumber().equals(cardNumber)) {
                 return c;
@@ -39,18 +47,17 @@ public class SavingsAccount implements Account {
 
     @Override
     public void pay(double amount) throws Exception {
-        if (balance >= amount) {
+        if (balance - amount > 0) {
             balance -= amount;
         } else {
-            throw new Exception("Insufficient funds");
+            if (balance < amount) {
+                throw new Exception("Insufficient funds");
+            }
+            throw new Exception("Funds below minimum balance");
         }
     }
     public void deposit(double amount) {
         balance += amount;
-    }
-
-    public void cardCleanup() {
-        cards.removeIf(c -> !c.isAvailable());
     }
 
     public void register(String currency, double interestRate) {
