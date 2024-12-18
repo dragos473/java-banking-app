@@ -5,6 +5,7 @@ import org.poo.fileio.CommandInput;
 import org.poo.main.objects.Bank;
 import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
+import org.poo.main.objects.accounts.ClassicAccount;
 
 public class SpendingReport implements Action{
     @Override
@@ -13,6 +14,18 @@ public class SpendingReport implements Action{
             for (User u : Bank.getInstance().getUsers()) {
                 if(u.getAccount(input.getAccount()) == null) {
                     continue;
+                }
+                try {
+                    ClassicAccount acc = (ClassicAccount) u.getAccount(input.getAccount());
+                } catch (ClassCastException e) {
+                    ObjectNode err = Output.getInstance().mapper.createObjectNode();
+                    err.put("error", "This kind of report is not supported for a saving account");
+                    ObjectNode out = Output.getInstance().mapper.createObjectNode();
+                    out.put("command", "spendingsReport")
+                            .put("output", err);
+                    out.put("timestamp", input.getTimestamp());
+                    Output.getInstance().output.add(out);
+                    return;
                 }
                 u.getTransactions().spendingReport(input.getStartTimestamp(), input.getEndTimestamp(),
                         u.getAccount(input.getAccount()), input.getTimestamp());

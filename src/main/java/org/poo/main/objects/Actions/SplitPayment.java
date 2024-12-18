@@ -14,6 +14,7 @@ import java.util.List;
 
 public class SplitPayment implements Action {
     Account a;
+    String poorIBAN;
     @Override
     public void execute(CommandInput input) {
         double toPay = input.getAmount()/input.getAccounts().size();
@@ -25,17 +26,39 @@ public class SplitPayment implements Action {
                     continue;
                 }
                 try {
-                a = u.getAccount(account);
-                double rate = Bank.getInstance().getExchange().getExchangeRate(input.getCurrency(), a.getCurrency());
-                double amount = toPay * rate;
-                a.pay(amount);
+                    double rate = Bank.getInstance().getExchange()
+                            .getExchangeRate(input.getCurrency(), u.getAccount(account).getCurrency());
+                    double amount = toPay * rate;
+                    if (u.getAccount(account).getBalance() < amount) {
+                        err = true;
+                        poorIBAN = u.getAccount(account).getIBAN();
+                    }
+                } catch (Exception e) {
+                    //do nothing
+                    //err = true;
+                    System.out.println(e.getLocalizedMessage());
+                }
+            }
+        }
+
+        for (String account : input.getAccounts()) {
+            for (User u : Bank.getInstance().getUsers()) {
+                if (u.getAccount(account) == null) {
+                    continue;
+                }
+                try {
+                    a = u.getAccount(account);
+                    double rate = Bank.getInstance().getExchange()
+                            .getExchangeRate(input.getCurrency(), a.getCurrency());
+                    double amount = toPay * rate;
+                    if (!err)
+                        a.pay(amount);
 
                 }  catch (Exception e) {
                     ObjectNode output = Output.getInstance().mapper.createObjectNode()
                             .put("description", "Insufficient funds")
                             .put("timestamp", input.getTimestamp());
                     u.getTransactions().addTransaction(output, a.getIBAN());
-                    err = true;
                 }
                 ArrayNode involvedAccounts = Output.getInstance().mapper.createArrayNode();
                 String amount = String.format("%.2f", input.getAmount());
@@ -43,14 +66,15 @@ public class SplitPayment implements Action {
                     involvedAccounts.add(acc);
                 }
                 ObjectNode output = Output.getInstance().mapper.createObjectNode()
-                    .put("amount", toPay)
-                    .put("currency", input.getCurrency())
-                    .put("description", "Split payment of " + amount + " " + input.getCurrency())
-                    .put("timestamp", input.getTimestamp());
-                    output.put("involvedAccounts", involvedAccounts);
-                    if (err) {
-                        output.put("error", "Account " + a.getIBAN() + " has insufficient funds for a split payment.");
-                    }
+                        .put("amount", toPay)
+                        .put("currency", input.getCurrency())
+                        .put("description", "Split payment of " + amount + " " + input.getCurrency())
+                        .put("timestamp", input.getTimestamp());
+                output.put("involvedAccounts", involvedAccounts);
+                if (err) {
+                    output.put("error", "Account " + poorIBAN
+                            + " has insufficient funds for a split payment.");
+                }
                 u.getTransactions().addTransaction(output, a.getIBAN());
             }
         }

@@ -16,6 +16,7 @@ public class AddInterestRate implements Action{
                     continue;
                 }
                 SavingsAccount acc = (SavingsAccount) u.getAccount(input.getAccount());
+                acc.deposit(acc.getBalance() * acc.getInterestRate());
             }
         } catch (Exception e) {
             Output JSON = Output.getInstance();

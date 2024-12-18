@@ -5,6 +5,7 @@ import org.poo.fileio.CommandInput;
 import org.poo.main.objects.Bank;
 import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
+import org.poo.main.objects.accounts.ClassicAccount;
 
 public class Report implements Action {
     @Override
@@ -15,9 +16,22 @@ public class Report implements Action {
                 if(u.getAccount(input.getAccount()) == null) {
                     continue;
                 }
+                try {
+                    ClassicAccount acc = (ClassicAccount) u.getAccount(input.getAccount());
+                } catch (ClassCastException e) {
+                    ObjectNode err = Output.getInstance().mapper.createObjectNode();
+                    err.put("error", "This kind of report is not supported for a saving account");
+                    ObjectNode out = Output.getInstance().mapper.createObjectNode();
+                    out.put("command", "report")
+                            .put("timestamp", input.getTimestamp())
+                            .put("output", err);
+                    Output.getInstance().output.add(out);
+                    return;
+                }
                 u.getTransactions().report(input.getStartTimestamp(), input.getEndTimestamp(),
                         u.getAccount(input.getAccount()), input.getTimestamp());
                 found = true;
+
             }
             if (!found) {
                 throw new Exception("Account not found");

@@ -43,7 +43,6 @@ public class ClassicAccount implements Account {
     @Override
     public void removeCard(String cardNumber) {
         cards.removeIf(c -> c.getCardNumber().equals(cardNumber));
-
     }
     public void pay(double amount) throws Exception {
 

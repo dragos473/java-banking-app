@@ -20,6 +20,10 @@ public class Exchange {
      * @throws Exception
      */
     public double getExchangeRate(String from, String to) throws Exception {
+        if (from.equals(to)) {
+            return 1.0;
+        }
+
         if (!graph.containsKey(from) || !graph.containsKey(to)) {
             throw new Exception("Currency not found in the graph");
         }

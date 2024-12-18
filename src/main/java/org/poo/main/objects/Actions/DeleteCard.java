@@ -15,6 +15,9 @@ public class DeleteCard implements  Action{
         try {
             User user = Bank.getInstance().getUser(input.getEmail());
             for (Account a : user.getAccounts()) {
+                if (a.getCard(input.getCardNumber()) == null) {
+                    continue;
+                }
                 a.removeCard(input.getCardNumber());
                 ObjectNode output = Output.getInstance().mapper.createObjectNode();
                 output.put("account", a.getIBAN());
@@ -23,6 +26,7 @@ public class DeleteCard implements  Action{
                 output.put("description", "The card has been destroyed");
                 output.put("timestamp", input.getTimestamp());
                 user.getTransactions().addTransaction(output, a.getIBAN());
+                return;
             }
         } catch (Exception e) {
             System.out.println("Card not found");

@@ -34,7 +34,7 @@ public class SendMoney implements Action{
                     Bank.getInstance().getUser(input.getEmail())
                             .getTransactions().addTransaction(payerOut, payer.getIBAN());
                     ObjectNode payeeOut = Output.getInstance().mapper.createObjectNode()
-                            .put("amount", input.getAmount() + " " + payer.getCurrency())
+                            .put("amount", amount + " " + payee.getCurrency())
                             .put("description", input.getDescription())
                             .put("receiverIBAN", payee.getIBAN())
                             .put("senderIBAN", payer.getIBAN())

@@ -16,6 +16,15 @@ public class ChangeInterestRate implements Action {
                     continue;
                 }
                 SavingsAccount acc = (SavingsAccount) u.getAccount(input.getAccount());
+                acc.setInterestRate(input.getInterestRate());
+//                            {
+//                "description": "Interest rate of the account changed to 0.81",
+//                "timestamp": 2
+//            },
+                ObjectNode output = Output.getInstance().mapper.createObjectNode()
+                        .put("description", "Interest rate of the account changed to " + input.getInterestRate())
+                        .put("timestamp", input.getTimestamp());
+                u.getTransactions().addTransaction(output, acc.getIBAN());
             }
         } catch (Exception e) {
             Output JSON = Output.getInstance();

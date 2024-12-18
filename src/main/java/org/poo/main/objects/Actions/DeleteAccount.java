@@ -26,6 +26,15 @@ public class DeleteAccount implements Action{
                 out.put("timestamp", input.getTimestamp());
                 JSON.output.add(out);
 
+//                            {
+//                "description": "Account couldn't be deleted - there are funds remaining",
+//                "timestamp": 173
+//            }
+                ObjectNode errOut = JSON.mapper.createObjectNode()
+                        .put("description", "Account couldn't be deleted - there are funds remaining")
+                        .put("timestamp", input.getTimestamp());
+                Bank.getInstance().getUser(input.getEmail())
+                        .getTransactions().addTransaction(errOut, input.getAccount());
                 return;
             }
 

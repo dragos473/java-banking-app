@@ -13,7 +13,6 @@ import org.poo.main.objects.accounts.Cards.CardFactory.DefaultCardFactory;
 public class AddCard implements Action {
     @Override
     public void execute(CommandInput input) {
-        //TODO: add a card to the user
         CardFactory factory;
         Card card;
             factory = new DefaultCardFactory();
