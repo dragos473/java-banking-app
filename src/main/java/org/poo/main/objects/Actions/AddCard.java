@@ -11,8 +11,12 @@ import org.poo.main.objects.accounts.Cards.CardFactory.CardFactory;
 import org.poo.main.objects.accounts.Cards.CardFactory.DefaultCardFactory;
 
 public class AddCard implements Action {
+    /**
+     * Creates a new card for the user in the account given
+     * @param input the input command
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         CardFactory factory;
         Card card;
             factory = new DefaultCardFactory();

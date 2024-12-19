@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.fileio.CommandInput;
 import org.poo.main.objects.Bank;
 import org.poo.main.objects.Output;
-import org.poo.main.objects.accounts.Account;
-import org.poo.main.objects.accounts.AccountFactories.AccountFactory;
-import org.poo.main.objects.accounts.AccountFactories.ClassicAccountFactory;
-import org.poo.main.objects.accounts.AccountFactories.SavingsAccountFactory;
 
 public class DeleteAccount implements Action{
+    /**
+     * Deletes an account from a user
+     * @param input the input needed for the action
+     */
     @Override
     public void execute(CommandInput input) {
         try {

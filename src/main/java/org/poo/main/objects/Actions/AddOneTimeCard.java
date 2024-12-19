@@ -10,8 +10,12 @@ import org.poo.main.objects.accounts.Cards.CardFactory.CardFactory;
 import org.poo.main.objects.accounts.Cards.CardFactory.OneTimeUseCardFactory;
 
 public class AddOneTimeCard implements Action {
+    /**
+     * Creates a new one time use card for the user in the given account
+     * @param input the input needed for the action
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         CardFactory factory;
         Card card;
         factory = new OneTimeUseCardFactory();

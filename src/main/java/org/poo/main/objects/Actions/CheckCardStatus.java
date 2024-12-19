@@ -8,8 +8,13 @@ import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.Account;
 
 public class CheckCardStatus implements Action {
+    /**
+     * Checks the status of a card.
+     * If the balance is under the minimum, the card will be frozen
+     * @param input the input needed for the action
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         for (User u : Bank.getInstance().getUsers()) {
             for (Account acc : u.getAccounts()) {
                 if (acc.getCard(input.getCardNumber()) == null) {

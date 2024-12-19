@@ -19,6 +19,12 @@ public class Commerciants {
         names = new ArrayList<>();
     }
 
+    /**
+     * Adds a commerciant to the list of commerciants.
+     * If the commerciant is already in the list, this increments the money spent by the commerciant
+     * @param name of the commerciant
+     * @param moneySpent the amount of money spent by the commerciant in the current transaction
+     */
     public void addCommerciants(String name, double moneySpent) {
         if (names.isEmpty()) {
             names.add(name);

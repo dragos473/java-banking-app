@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActionMap {
-    Map<String, Action> map = new HashMap<>();
+    private Map<String, Action> map = new HashMap<>();
 
     public ActionMap() {
         map.put("addAccount", new AddAccount());
@@ -28,7 +28,11 @@ public class ActionMap {
         map.put("changeInterestRate", new ChangeInterestRate());
         map.put("addInterest", new AddInterestRate());
     }
-    public void execute(CommandInput input) throws NoSuchMethodException {
+    /**
+     * Finds and executes the action given by the command name
+     * @param input the input needed for the action
+     */
+    public void execute(final CommandInput input) throws NoSuchMethodException {
         if (!map.containsKey(input.getCommand())) {
             throw new NoSuchMethodException();
         }

@@ -9,8 +9,12 @@ import org.poo.main.objects.accounts.Account;
 
 public class SendMoney implements Action{
     User user;
+    /**
+     * Transfers money from one account to another
+     * @param input the input needed for the action
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         if (!input.getAccount().contains("RO")) {
             return;
         }

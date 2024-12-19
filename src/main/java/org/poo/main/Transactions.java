@@ -10,15 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Transactions {
-    private Output JSON = Output.getInstance();
-    private ArrayNode transactions = JSON.mapper.createArrayNode();
-    private List<String> accounts = new ArrayList<>();
+    private final Output JSON = Output.getInstance();
+    private final ArrayNode transactions = JSON.mapper.createArrayNode();
+    private final List<String> accounts = new ArrayList<>();
 
+    /**
+     * Adds a transaction to the list of transactions
+     * @param transaction the transaction to be added
+     * @param IBAN the IBAN of the account that made the transaction
+     */
     public void addTransaction(ObjectNode transaction, String IBAN) {
         transactions.add(transaction);
         accounts.add(IBAN);
     }
 
+    /**
+     * Prints all the transactions of the user
+     * @param timestamp the timestamp of the command
+     */
     public void printTransactions(int timestamp) {
         ArrayNode transactionsOut = JSON.mapper.createArrayNode();
         transactionsOut.addAll(transactions);
@@ -30,10 +39,18 @@ public class Transactions {
         JSON.output.add(out);
     }
 
+    /**
+     * Prints all the transactions of the given account
+     * @param timestampStart the start timestamp
+     * @param timestampEnd the end timestamp
+     * @param account the account to print the transactions
+     * @param timestamp the timestamp of the command
+     */
     public void report(int timestampStart, int timestampEnd, Account account, int timestamp) {
         ObjectNode output = JSON.mapper.createObjectNode();
         ArrayNode transactionsOut = JSON.mapper.createArrayNode();
         int lastTimestamp = -1;
+
         for (int i = 0; i < transactions.size(); i++) {
             ObjectNode transaction = (ObjectNode) transactions.get(i);
             int transactionTimestamp = transaction.get("timestamp").asInt();
@@ -41,12 +58,14 @@ public class Transactions {
                 if (!accounts.get(i).equals(account.getIBAN())) {
                     continue;
                 }
+
                 if (transactionTimestamp != lastTimestamp) {
                     transactionsOut.add(transaction);
                     lastTimestamp = transactionTimestamp;
                 }
             }
         }
+
         output.put("balance", account.getBalance())
                 .put("currency", account.getCurrency())
                 .put("IBAN", account.getIBAN());
@@ -58,7 +77,14 @@ public class Transactions {
         out.put("timestamp", timestamp);
         JSON.output.add(out);
     }
-
+    /**
+     * Prints all the transactions of the given account
+     * and the commerciants that the user has spent money on
+     * @param timestampStart the start timestamp
+     * @param timestampEnd the end timestamp
+     * @param account the account to print the transactions
+     * @param timestamp the timestamp of the command
+     */
     public void spendingReport(int timestampStart, int timestampEnd, Account account, int timestamp) {
         Commerciants commerciants = new Commerciants();
         ArrayNode transactionsOut = JSON.mapper.createArrayNode();

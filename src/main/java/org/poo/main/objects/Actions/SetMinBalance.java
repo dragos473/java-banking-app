@@ -5,9 +5,12 @@ import org.poo.fileio.CommandInput;
 import org.poo.main.objects.Bank;
 import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
-import org.poo.main.objects.accounts.Account;
 
 public class SetMinBalance implements Action {
+    /**
+     * Sets the minimum balance of an account
+     * @param input the input needed for the action
+     */
     @Override
     public void execute(CommandInput input) {
             for (User u : Bank.getInstance().getUsers()) {

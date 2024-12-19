@@ -11,8 +11,12 @@ import org.poo.main.objects.accounts.AccountFactories.SavingsAccountFactory;
 
 public class AddAccount  implements Action {
 
+    /**
+     * Creates a new account for the user
+     * @param input the input command
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         AccountFactory factory;
         Account account;
         if (input.getAccountType().equals("savings")) {

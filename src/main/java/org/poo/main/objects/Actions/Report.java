@@ -8,6 +8,10 @@ import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.ClassicAccount;
 
 public class Report implements Action {
+    /**
+     * Prints a report for a given account
+     * @param input the input needed for the action
+     */
     @Override
     public void execute(CommandInput input) {
         boolean found = false;

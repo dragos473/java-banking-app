@@ -2,15 +2,10 @@ package org.poo.main;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.checker.Checker;
 import org.poo.checker.CheckerConstants;
 import org.poo.fileio.ObjectInput;
-import org.poo.fileio.UserInput;
 import org.poo.main.objects.*;
-import org.poo.main.objects.Actions.Action;
-import org.poo.main.objects.Actions.PrintUsers;
 import org.poo.utils.Utils;
 
 import java.io.File;
@@ -18,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
@@ -58,9 +52,6 @@ public final class Main {
 
         for (File file : sortedFiles) {
             String filepath = CheckerConstants.OUT_PATH + file.getName();
-//            if(!filepath.contains("20")) {
-//                continue;
-//            }
             File out = new File(filepath);
             boolean isCreated = out.createNewFile();
             if (isCreated) {

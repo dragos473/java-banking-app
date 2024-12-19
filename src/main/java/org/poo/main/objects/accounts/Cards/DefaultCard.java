@@ -10,20 +10,22 @@ public class DefaultCard implements Card {
     private String cardNumber;
     private double balance;
     private boolean available;
-
+    /**
+     * Registers a card, used for the CardFactory
+     */
     public void register() {
         cardNumber = Utils.generateCardNumber();
         available = true;
     }
-
+    /**
+     * Method to freeze the card
+     */
     public void freeze() {
         available = false;
     }
-
-    public void unfreeze() {
-        available = true;
-    }
-
+    /**
+     * Method to notify the card that it has paid.
+     */
     @Override
     public void payed() {
         available = true;

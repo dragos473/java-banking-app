@@ -8,8 +8,12 @@ import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.ClassicAccount;
 
 public class SpendingReport implements Action{
+    /**
+     * Prints a spending report for a given account
+     * @param input the input needed for the action
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         try {
             for (User u : Bank.getInstance().getUsers()) {
                 if(u.getAccount(input.getAccount()) == null) {

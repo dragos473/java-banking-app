@@ -1,8 +1,6 @@
 package org.poo.main.objects.Actions;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import jdk.dynalink.NamedOperation;
-import jdk.dynalink.NoSuchDynamicMethodException;
 import org.poo.fileio.CommandInput;
 import org.poo.main.objects.Bank;
 import org.poo.main.objects.Output;
@@ -11,13 +9,15 @@ import org.poo.main.objects.accounts.Account;
 import org.poo.main.objects.accounts.Cards.Card;
 
 public class PayOnline implements Action{
-    //Exception err = new Exception("Insufficient funds");
     User user;
-    Card usedCard;
     CommandInput cardInfo = new CommandInput();
     boolean OneTimeUsed = false;
+    /**
+     * Pays online with a card
+     * @param input the input needed for the action
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         OneTimeUsed = false;
         try {
             user = Bank.getInstance().getUser(input.getEmail());
@@ -41,7 +41,6 @@ public class PayOnline implements Action{
                 double amount = input.getAmount() * rate;
 
                 a.pay(amount);
-                System.out.println("\n"+input.getTimestamp() + ".Payed online with " + input.getCardNumber());
                 found = true;
 
                 try {
@@ -65,7 +64,6 @@ public class PayOnline implements Action{
                     if (OneTimeUsed) {
                         System.out.println(input.getTimestamp() + ".OneTimeCard: " + input.getCardNumber() + " (account: " + a.getIBAN() + ")");
                         new DeleteCard().execute(cardInfo);
-//                        a.getCards().remove(c);
                         new AddOneTimeCard().execute(cardInfo);
                     }
                     break;

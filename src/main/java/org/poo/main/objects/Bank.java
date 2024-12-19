@@ -19,8 +19,8 @@ public class Bank {
     private static Bank instance;
     private ArrayList<User> Users;
     private Exchange exchange;
+
     private Bank(){
-        //TODO: init values
         Users = new ArrayList<>();
         UserInput[] get = Input.getInstance(new ObjectInput()).inputData.getUsers();
         for (UserInput ui : get) {
@@ -34,8 +34,8 @@ public class Bank {
     }
 
     /**
-     * singleton initializer, that only allows one instance of Bank
-     * @return
+     * Singleton initializer, that only allows one instance of Bank
+     * @return the instance of bank
      */
     public static Bank getInstance() {
         if (instance == null) {
@@ -43,10 +43,19 @@ public class Bank {
         }
         return instance;
     }
+
+    /**
+     * Method to delete the instance of the Bank, preventing tests from overlapping
+     */
     public static void deleteInstance() {
         instance = null;
     }
-
+    /**
+     * Method to add a user to the bank
+     * @param email the email of the user that needs to be found
+     * @return the user that was found
+     * @exception  NoSuchMethodException if the user is not found
+     */
     public User getUser(String email) throws NoSuchMethodException {
         for (User u : Users) {
             if (u.getEmail().equals(email)) {

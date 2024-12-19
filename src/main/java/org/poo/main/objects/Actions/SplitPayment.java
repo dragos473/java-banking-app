@@ -8,15 +8,16 @@ import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.Account;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.List;
-
 public class SplitPayment implements Action {
     Account a;
     String poorIBAN;
+
+    /**
+     * Splits a payment between multiple accounts
+     * @param input the input needed for the action
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         double toPay = input.getAmount()/input.getAccounts().size();
         boolean err = false;
 

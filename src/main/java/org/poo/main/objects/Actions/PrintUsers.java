@@ -42,9 +42,12 @@ public class PrintUsers implements Action {
             }
         return acc;
     }
-
+    /**
+     * Prints all the users in the bank, along with the accounts and cards they have
+     * @param input the input needed for the action
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         ObjectNode out = JSON.mapper.createObjectNode();
         out.put("command", "printUsers");
         ArrayNode arr = JSON.mapper.createArrayNode();

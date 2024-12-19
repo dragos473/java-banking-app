@@ -6,6 +6,12 @@ public class Exchange {
 
     private final Map<String, Map<String, Double>> graph = new HashMap<>();
 
+    /**
+     * Add a new exchange rate to the graph
+     * @param from sender currency
+     * @param to receiver currency
+     * @param rate exchange rate
+     */
     public void addRate(String from, String to, double rate) {
         graph.computeIfAbsent(from, k -> new HashMap<>()).put(to, rate);
         graph.computeIfAbsent(to, k -> new HashMap<>()).put(from, 1 / rate);
@@ -14,10 +20,10 @@ public class Exchange {
     /**
      *
      * Dijkstra's algorithm to find the shortest path between two currencies
-     * @param from
-     * @param to
-     * @return
-     * @throws Exception
+     * @param from sender currency
+     * @param to receiver currency
+     * @return the exchange rate between the two currencies
+     * @throws Exception if the currency is not found in the graph
      */
     public double getExchangeRate(String from, String to) throws Exception {
         if (from.equals(to)) {
