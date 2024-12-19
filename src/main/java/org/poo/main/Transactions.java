@@ -19,7 +19,7 @@ public class Transactions {
      * @param transaction the transaction to be added
      * @param IBAN the IBAN of the account that made the transaction
      */
-    public void addTransaction(ObjectNode transaction, String IBAN) {
+    public void addTransaction(final ObjectNode transaction, final String IBAN) {
         transactions.add(transaction);
         accounts.add(IBAN);
     }
@@ -28,7 +28,7 @@ public class Transactions {
      * Prints all the transactions of the user
      * @param timestamp the timestamp of the command
      */
-    public void printTransactions(int timestamp) {
+    public void printTransactions(final int timestamp) {
         ArrayNode transactionsOut = JSON.mapper.createArrayNode();
         transactionsOut.addAll(transactions);
 
@@ -46,7 +46,8 @@ public class Transactions {
      * @param account the account to print the transactions
      * @param timestamp the timestamp of the command
      */
-    public void report(int timestampStart, int timestampEnd, Account account, int timestamp) {
+    public void report(final int timestampStart, final int timestampEnd,
+                       final Account account, final int timestamp) {
         ObjectNode output = JSON.mapper.createObjectNode();
         ArrayNode transactionsOut = JSON.mapper.createArrayNode();
         int lastTimestamp = -1;
@@ -85,7 +86,8 @@ public class Transactions {
      * @param account the account to print the transactions
      * @param timestamp the timestamp of the command
      */
-    public void spendingReport(int timestampStart, int timestampEnd, Account account, int timestamp) {
+    public void spendingReport(final int timestampStart, final int timestampEnd,
+                               final Account account, final int timestamp) {
         Commerciants commerciants = new Commerciants();
         ArrayNode transactionsOut = JSON.mapper.createArrayNode();
 
@@ -100,7 +102,8 @@ public class Transactions {
                 continue;
             }
 
-            if(transaction.get("timestamp").asInt() < timestampStart || transaction.get("timestamp").asInt() > timestampEnd) {
+            if (transaction.get("timestamp").asInt() < timestampStart
+                    || transaction.get("timestamp").asInt() > timestampEnd) {
                 continue;
             }
 

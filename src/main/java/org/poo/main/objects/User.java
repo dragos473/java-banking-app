@@ -14,14 +14,15 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private List<Account> Accounts;
+    private List<Account> accounts;
     private Transactions transactions;
 
-    public User(String firstName, String lastName, String email) {
+    public User(final String firstName, final String lastName,
+                final String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        Accounts = new ArrayList<>();
+        accounts = new ArrayList<>();
         transactions = new Transactions();
     }
 
@@ -30,8 +31,8 @@ public class User {
      * @param key IBAN/Alias
      * @return Account with the given key or null if not found
      */
-    public Account getAccount(String key) {
-        for (Account a : Accounts) {
+    public Account getAccount(final String key) {
+        for (Account a : accounts) {
             if (a.getIBAN().equals(key) || (a.getAlias() != null && a.getAlias().equals(key))) {
                 return a;
             }
@@ -41,9 +42,9 @@ public class User {
 
     /**
      * Removes the account with the given IBAN
-     * @param IBAN IBAN of the account to be removed
+     * @param key IBAN of the account to be removed
      */
-    public void removeAccount(String IBAN) {
-        Accounts.removeIf(a -> a.getIBAN().equals(IBAN));
+    public void removeAccount(final String key) {
+        accounts.removeIf(a -> a.getIBAN().equals(key));
     }
 }

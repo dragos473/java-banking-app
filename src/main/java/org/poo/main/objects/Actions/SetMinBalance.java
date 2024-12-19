@@ -12,7 +12,7 @@ public class SetMinBalance implements Action {
      * @param input the input needed for the action
      */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
             for (User u : Bank.getInstance().getUsers()) {
                 if (u.getAccount(input.getAccount()) == null) {
                     continue;

@@ -7,8 +7,8 @@ import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.Account;
 
-public class SendMoney implements Action{
-    User user;
+public class SendMoney implements Action {
+    private User user;
     /**
      * Transfers money from one account to another
      * @param input the input needed for the action
@@ -25,7 +25,9 @@ public class SendMoney implements Action{
                 if (u.getAccount(input.getReceiver()) != null) {
                     Account payee  = u.getAccount(input.getReceiver());
                     payer.pay(input.getAmount());
-                    double rate = Bank.getInstance().getExchange().getExchangeRate(payer.getCurrency(), payee.getCurrency());
+                    double rate = Bank.getInstance()
+                            .getExchange().getExchangeRate
+                                    (payer.getCurrency(), payee.getCurrency());
                     double amount = input.getAmount() * rate;
                     payee.deposit(amount);
                     ObjectNode payerOut = Output.getInstance().mapper.createObjectNode()

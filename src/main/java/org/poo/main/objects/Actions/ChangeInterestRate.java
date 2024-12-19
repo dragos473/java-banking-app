@@ -26,7 +26,9 @@ public class ChangeInterestRate implements Action {
 //                "timestamp": 2
 //            },
                 ObjectNode output = Output.getInstance().mapper.createObjectNode()
-                        .put("description", "Interest rate of the account changed to " + input.getInterestRate())
+                        .put("description",
+                                "Interest rate of the account changed to "
+                                + input.getInterestRate())
                         .put("timestamp", input.getTimestamp());
                 u.getTransactions().addTransaction(output, acc.getIBAN());
             }

@@ -2,7 +2,6 @@ package org.poo.main.objects.Actions;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.fileio.CommandInput;
-import org.poo.fileio.ObjectInput;
 import org.poo.main.objects.Bank;
 import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
@@ -32,7 +31,8 @@ public class AddCard implements Action {
             output.put("cardHolder", user.getEmail());
             output.put("description", "New card created");
             output.put("timestamp", input.getTimestamp());
-            user.getTransactions().addTransaction(output, user.getAccount(input.getAccount()).getIBAN());
+            user.getTransactions()
+                    .addTransaction(output, user.getAccount(input.getAccount()).getIBAN());
         } catch (Exception e) {
             e.printStackTrace();
         }

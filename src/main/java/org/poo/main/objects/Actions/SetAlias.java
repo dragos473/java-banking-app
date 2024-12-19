@@ -9,7 +9,7 @@ public class SetAlias implements Action {
      * @param input the input needed for the action
      */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         try {
             Bank.getInstance().getUser(input.getEmail())
                     .getAccount(input.getAccount())

@@ -12,7 +12,8 @@ public class Exchange {
      * @param to receiver currency
      * @param rate exchange rate
      */
-    public void addRate(String from, String to, double rate) {
+    public void addRate(final String from, final String to,
+                        final double rate) {
         graph.computeIfAbsent(from, k -> new HashMap<>()).put(to, rate);
         graph.computeIfAbsent(to, k -> new HashMap<>()).put(from, 1 / rate);
     }
@@ -25,7 +26,7 @@ public class Exchange {
      * @return the exchange rate between the two currencies
      * @throws Exception if the currency is not found in the graph
      */
-    public double getExchangeRate(String from, String to) throws Exception {
+    public double getExchangeRate(final String from, final String to) throws Exception {
         if (from.equals(to)) {
             return 1.0;
         }
@@ -35,7 +36,8 @@ public class Exchange {
         }
 
         Map<String, Double> distances = new HashMap<>();
-        PriorityQueue<Rate> queue = new PriorityQueue<>(Comparator.comparingDouble(node -> node.cost));
+        PriorityQueue<Rate> queue = new PriorityQueue<>(Comparator
+                .comparingDouble(node -> node.cost));
         Set<String> visited = new HashSet<>();
 
         distances.put(from, 1.0);

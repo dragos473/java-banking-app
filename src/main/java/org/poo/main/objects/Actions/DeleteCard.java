@@ -9,7 +9,7 @@ import org.poo.main.objects.accounts.Account;
 import org.poo.main.objects.accounts.Cards.Card;
 
 
-public class DeleteCard implements  Action{
+public class DeleteCard implements  Action {
     /**
      * Deletes a card from the user's account
      * @param input the input needed for the action
@@ -37,7 +37,6 @@ public class DeleteCard implements  Action{
                 output.put("description", "The card has been destroyed");
                 output.put("timestamp", input.getTimestamp());
                 user.getTransactions().addTransaction(output, a.getIBAN());
-                System.out.println(input.getTimestamp() + ".Card deleted " + input.getCardNumber()+ " (account: " + a.getIBAN() + ")");
                 return;
             }
         } catch (Exception e) {

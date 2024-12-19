@@ -8,7 +8,7 @@ public abstract class CardFactory {
      * @param balance the balance of the owner
      * @return the created card
      */
-    public Card create(double balance) {
+    public Card create(final double balance) {
         Card card = createCard();
         card.register();
         return card;

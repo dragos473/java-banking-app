@@ -1,32 +1,28 @@
 package org.poo.main.objects;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Getter;
 import lombok.Setter;
-import org.poo.fileio.CommandInput;
 import org.poo.fileio.ExchangeInput;
 import org.poo.fileio.ObjectInput;
 import org.poo.fileio.UserInput;
-import org.poo.main.objects.Actions.Action;
-import org.poo.main.objects.Actions.PrintUsers;
 
 import java.util.ArrayList;
 
 @Setter
 @Getter
-public class Bank {
+public final class Bank {
     private static Bank instance;
-    private ArrayList<User> Users;
+    private ArrayList<User> users;
     private Exchange exchange;
 
-    private Bank(){
-        Users = new ArrayList<>();
+    private Bank() {
+        users = new ArrayList<>();
         UserInput[] get = Input.getInstance(new ObjectInput()).inputData.getUsers();
         for (UserInput ui : get) {
-            Users.add(new User(ui.getFirstName(), ui.getLastName(), ui.getEmail()));
+            users.add(new User(ui.getFirstName(), ui.getLastName(), ui.getEmail()));
         }
-        ExchangeInput[] commands = Input.getInstance(new ObjectInput()).inputData.getExchangeRates();
+        ExchangeInput[] commands = Input.getInstance(new ObjectInput())
+                .inputData.getExchangeRates();
         exchange = new Exchange();
         for (ExchangeInput ei : commands) {
             getExchange().addRate(ei.getFrom(), ei.getTo(), ei.getRate());
@@ -56,8 +52,8 @@ public class Bank {
      * @return the user that was found
      * @exception  NoSuchMethodException if the user is not found
      */
-    public User getUser(String email) throws NoSuchMethodException {
-        for (User u : Users) {
+    public User getUser(final String email) throws NoSuchMethodException {
+        for (User u : users) {
             if (u.getEmail().equals(email)) {
                 return u;
             }

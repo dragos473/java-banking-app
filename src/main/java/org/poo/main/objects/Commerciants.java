@@ -2,7 +2,6 @@ package org.poo.main.objects;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.poo.main.objects.Actions.Report;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +9,8 @@ import java.util.List;
 @Setter
 @Getter
 public class Commerciants {
-    List<String> names;
-    List<Double> moneySpent;
+    private List<String> names;
+    private List<Double> moneySpent;
 
 
     public Commerciants() {
@@ -25,7 +24,7 @@ public class Commerciants {
      * @param name of the commerciant
      * @param moneySpent the amount of money spent by the commerciant in the current transaction
      */
-    public void addCommerciants(String name, double moneySpent) {
+    public void addCommerciants(final String name, final double moneySpent) {
         if (names.isEmpty()) {
             names.add(name);
             this.moneySpent.add(moneySpent);
