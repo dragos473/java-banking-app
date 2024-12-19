@@ -10,10 +10,10 @@ import org.poo.main.objects.accounts.Cards.Card;
 
 
 public class PrintUsers implements Action {
-    private Bank bank = Bank.getInstance();
-    private Output JSON = Output.getInstance();
+    private final Bank bank = Bank.getInstance();
+    private final Output JSON = Output.getInstance();
 
-    private ArrayNode printAccount(User user) {
+    private ArrayNode printAccount(final User user) {
         ArrayNode acc = JSON.mapper.createArrayNode();
             for (int i = 0; i < user.getAccounts().size(); i++) {
                 ObjectNode account = JSON.mapper.createObjectNode();

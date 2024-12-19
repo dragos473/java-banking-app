@@ -8,17 +8,16 @@ import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.Account;
 import org.poo.main.objects.accounts.Cards.Card;
 
-public class PayOnline implements Action{
-    User user;
-    CommandInput cardInfo = new CommandInput();
-    boolean OneTimeUsed = false;
+public class PayOnline implements Action {
+    private User user;
+    private final CommandInput cardInfo = new CommandInput();
     /**
      * Pays online with a card
      * @param input the input needed for the action
      */
     @Override
     public void execute(final CommandInput input) {
-        OneTimeUsed = false;
+        boolean oneTimeUsed = false;
         try {
             user = Bank.getInstance().getUser(input.getEmail());
             boolean found = false;
@@ -37,7 +36,8 @@ public class PayOnline implements Action{
                     return;
                 }
 
-                double rate = Bank.getInstance().getExchange().getExchangeRate(input.getCurrency(), a.getCurrency());
+                double rate = Bank.getInstance()
+                        .getExchange().getExchangeRate(input.getCurrency(), a.getCurrency());
                 double amount = input.getAmount() * rate;
 
                 a.pay(amount);
@@ -51,7 +51,7 @@ public class PayOnline implements Action{
                         cardInfo.setCardNumber(c.getCardNumber());
                         cardInfo.setTimestamp(input.getTimestamp());
                         cardInfo.setAccount(a.getIBAN());
-                        OneTimeUsed = true;
+                        oneTimeUsed = true;
                     }
                 }
 
@@ -61,8 +61,7 @@ public class PayOnline implements Action{
                             .put("description", "Card payment")
                             .put("timestamp", input.getTimestamp());
                     user.getTransactions().addTransaction(output, a.getIBAN());
-                    if (OneTimeUsed) {
-                        System.out.println(input.getTimestamp() + ".OneTimeCard: " + input.getCardNumber() + " (account: " + a.getIBAN() + ")");
+                    if (oneTimeUsed) {
                         new DeleteCard().execute(cardInfo);
                         new AddOneTimeCard().execute(cardInfo);
                     }
@@ -81,7 +80,7 @@ public class PayOnline implements Action{
                     JSON.output.add(out);
                 }
 
-            } catch(Exception e){
+            } catch (Exception e) {
                     ObjectNode output = Output.getInstance().mapper.createObjectNode()
                             .put("description", "Insufficient funds")
                             .put("timestamp", input.getTimestamp());

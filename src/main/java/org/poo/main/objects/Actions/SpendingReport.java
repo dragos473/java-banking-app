@@ -7,7 +7,7 @@ import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.ClassicAccount;
 
-public class SpendingReport implements Action{
+public class SpendingReport implements Action {
     /**
      * Prints a spending report for a given account
      * @param input the input needed for the action
@@ -16,7 +16,7 @@ public class SpendingReport implements Action{
     public void execute(final CommandInput input) {
         try {
             for (User u : Bank.getInstance().getUsers()) {
-                if(u.getAccount(input.getAccount()) == null) {
+                if (u.getAccount(input.getAccount()) == null) {
                     continue;
                 }
                 try {
@@ -31,7 +31,8 @@ public class SpendingReport implements Action{
                     Output.getInstance().output.add(out);
                     return;
                 }
-                u.getTransactions().spendingReport(input.getStartTimestamp(), input.getEndTimestamp(),
+                u.getTransactions().spendingReport(input.getStartTimestamp(),
+                        input.getEndTimestamp(),
                         u.getAccount(input.getAccount()), input.getTimestamp());
                 return;
             }

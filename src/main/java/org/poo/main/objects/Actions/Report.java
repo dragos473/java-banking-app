@@ -13,11 +13,11 @@ public class Report implements Action {
      * @param input the input needed for the action
      */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         boolean found = false;
         try {
             for (User u : Bank.getInstance().getUsers()) {
-                if(u.getAccount(input.getAccount()) == null) {
+                if (u.getAccount(input.getAccount()) == null) {
                     continue;
                 }
                 try {

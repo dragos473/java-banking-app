@@ -12,7 +12,6 @@ public class AddFunds implements Action {
      */
     @Override
     public void execute(final CommandInput input) {
-        //TODO: add funds to the account
         for (User user : Bank.getInstance().getUsers()) {
                 for (Account account : user.getAccounts()) {
                     if (account.getIBAN().equals(input.getAccount())) {

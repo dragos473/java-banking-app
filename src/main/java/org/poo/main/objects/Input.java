@@ -6,14 +6,14 @@ public class Input {
     private static Input instance;
     public ObjectInput inputData;
 
-    public Input(ObjectInput inputData) {
+    public Input(final ObjectInput inputData) {
         this.inputData = inputData;
     }
     /**
      * singleton initializer, that only allows one instance of the JSON input format
      * @return
      */
-    public static Input getInstance(ObjectInput inputData) {
+    public static Input getInstance(final ObjectInput inputData) {
         if (instance == null) {
             instance = new Input(inputData);
         }

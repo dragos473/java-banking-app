@@ -29,7 +29,9 @@ public class CheckCardStatus implements Action {
                 acc.getCard(input.getCardNumber()).freeze();
 
                 ObjectNode output = Output.getInstance().mapper.createObjectNode()
-                        .put("description", "You have reached the minimum amount of funds, the card will be frozen")
+                        .put("description",
+                                "You have reached the minimum amount of funds, " +
+                                        "the card will be frozen")
                         .put("timestamp", input.getTimestamp());
                 u.getTransactions().addTransaction(output, acc.getIBAN());
                 return;

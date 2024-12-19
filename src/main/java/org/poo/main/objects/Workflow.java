@@ -13,7 +13,7 @@ public class Workflow {
         ActionMap actionMap = new ActionMap();
 
         for (CommandInput commandInput : input) {
-            try{
+            try {
                 actionMap.execute(commandInput);
             } catch (NoSuchMethodException e) {
                 System.out.println("No such method: " + commandInput.getCommand());

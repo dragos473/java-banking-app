@@ -7,7 +7,7 @@ import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.SavingsAccount;
 
-public class AddInterestRate implements Action{
+public class AddInterestRate implements Action {
     /**
      * Adds the interest rate to the balance of the savings account
      * @param input the input needed for the action

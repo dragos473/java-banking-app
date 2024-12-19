@@ -9,8 +9,8 @@ import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.Account;
 
 public class SplitPayment implements Action {
-    Account a;
-    String poorIBAN;
+    private Account a;
+    private String poorIBAN;
 
     /**
      * Splits a payment between multiple accounts
@@ -18,7 +18,7 @@ public class SplitPayment implements Action {
      */
     @Override
     public void execute(final CommandInput input) {
-        double toPay = input.getAmount()/input.getAccounts().size();
+        double toPay = input.getAmount() / input.getAccounts().size();
         boolean err = false;
 
         for (String account : input.getAccounts()) {
@@ -28,7 +28,8 @@ public class SplitPayment implements Action {
                 }
                 try {
                     double rate = Bank.getInstance().getExchange()
-                            .getExchangeRate(input.getCurrency(), u.getAccount(account).getCurrency());
+                            .getExchangeRate(input.getCurrency(),
+                                    u.getAccount(account).getCurrency());
                     double amount = toPay * rate;
                     if (u.getAccount(account).getBalance() < amount) {
                         err = true;
@@ -50,8 +51,9 @@ public class SplitPayment implements Action {
                     double rate = Bank.getInstance().getExchange()
                             .getExchangeRate(input.getCurrency(), a.getCurrency());
                     double amount = toPay * rate;
-                    if (!err)
+                    if (!err) {
                         a.pay(amount);
+                    }
 
                 }  catch (Exception e) {
                     ObjectNode output = Output.getInstance().mapper.createObjectNode()
@@ -67,7 +69,10 @@ public class SplitPayment implements Action {
                 ObjectNode output = Output.getInstance().mapper.createObjectNode()
                         .put("amount", toPay)
                         .put("currency", input.getCurrency())
-                        .put("description", "Split payment of " + amount + " " + input.getCurrency())
+                        .put("description", "Split payment of "
+                                                        + amount
+                                                        + " "
+                                                        + input.getCurrency())
                         .put("timestamp", input.getTimestamp());
                 output.put("involvedAccounts", involvedAccounts);
                 if (err) {
