@@ -26,7 +26,6 @@ public class OneTimeUseCard implements Card {
     }
 
     public void payed() {
-        //cardNumber = Utils.generateCardNumber();
         throw new UnsupportedOperationException("OneTimeUseCard");
     }
 }

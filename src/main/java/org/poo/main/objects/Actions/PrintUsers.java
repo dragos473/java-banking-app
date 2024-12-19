@@ -6,12 +6,8 @@ import org.poo.fileio.CommandInput;
 import org.poo.main.objects.Bank;
 import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
-import org.poo.main.objects.accounts.Account;
 import org.poo.main.objects.accounts.Cards.Card;
-import org.poo.main.objects.accounts.ClassicAccount;
-import org.poo.main.objects.accounts.SavingsAccount;
 
-import java.lang.reflect.Array;
 
 public class PrintUsers implements Action {
     private Bank bank = Bank.getInstance();
@@ -38,6 +34,7 @@ public class PrintUsers implements Action {
                     } else {
                         cardNode.put("status", "frozen");
                     }
+
                     cardArr.add(cardNode);
                 }
                 account.put("cards", cardArr);

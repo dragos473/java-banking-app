@@ -33,11 +33,18 @@ public class Transactions {
     public void report(int timestampStart, int timestampEnd, Account account, int timestamp) {
         ObjectNode output = JSON.mapper.createObjectNode();
         ArrayNode transactionsOut = JSON.mapper.createArrayNode();
+        int lastTimestamp = -1;
         for (int i = 0; i < transactions.size(); i++) {
             ObjectNode transaction = (ObjectNode) transactions.get(i);
             int transactionTimestamp = transaction.get("timestamp").asInt();
             if (transactionTimestamp >= timestampStart && transactionTimestamp <= timestampEnd) {
-                transactionsOut.add(transaction);
+                if (!accounts.get(i).equals(account.getIBAN())) {
+                    continue;
+                }
+                if (transactionTimestamp != lastTimestamp) {
+                    transactionsOut.add(transaction);
+                    lastTimestamp = transactionTimestamp;
+                }
             }
         }
         output.put("balance", account.getBalance())

@@ -18,11 +18,14 @@ public class PayOnline implements Action{
     boolean OneTimeUsed = false;
     @Override
     public void execute(CommandInput input) {
+        OneTimeUsed = false;
         try {
             user = Bank.getInstance().getUser(input.getEmail());
             boolean found = false;
+
             for (Account a : user.getAccounts()) {
                 Card c = a.getCard(input.getCardNumber());
+
                 if (c == null) {
                     continue;
                 }
@@ -33,17 +36,20 @@ public class PayOnline implements Action{
                     user.getTransactions().addTransaction(output, a.getIBAN());
                     return;
                 }
+
                 double rate = Bank.getInstance().getExchange().getExchangeRate(input.getCurrency(), a.getCurrency());
                 double amount = input.getAmount() * rate;
+
                 a.pay(amount);
-                //usedCard = c;
+                System.out.println("\n"+input.getTimestamp() + ".Payed online with " + input.getCardNumber());
                 found = true;
+
                 try {
                     c.payed();
                 } catch (UnsupportedOperationException e) {
                     if (e.getMessage().equals("OneTimeUseCard")) {
                         cardInfo.setEmail(input.getEmail());
-                        cardInfo.setCardNumber(input.getCardNumber());
+                        cardInfo.setCardNumber(c.getCardNumber());
                         cardInfo.setTimestamp(input.getTimestamp());
                         cardInfo.setAccount(a.getIBAN());
                         OneTimeUsed = true;
@@ -54,15 +60,17 @@ public class PayOnline implements Action{
                             .put("amount", amount)
                             .put("commerciant", input.getCommerciant())
                             .put("description", "Card payment")
-//                        .put("account", a.getIBAN())
                             .put("timestamp", input.getTimestamp());
                     user.getTransactions().addTransaction(output, a.getIBAN());
                     if (OneTimeUsed) {
+                        System.out.println(input.getTimestamp() + ".OneTimeCard: " + input.getCardNumber() + " (account: " + a.getIBAN() + ")");
                         new DeleteCard().execute(cardInfo);
+//                        a.getCards().remove(c);
                         new AddOneTimeCard().execute(cardInfo);
                     }
                     break;
                 }
+
                 if (!found) {
                     Output JSON = Output.getInstance();
                     ObjectNode out = JSON.mapper.createObjectNode();
@@ -73,25 +81,13 @@ public class PayOnline implements Action{
                     out.put("output", output);
                     out.put("timestamp", input.getTimestamp());
                     JSON.output.add(out);
-
                 }
+
             } catch(Exception e){
-//                if (OneTimeUsed) {
-//                    new DeleteCard().execute(cardInfo);
-//                    new AddOneTimeCard().execute(cardInfo);
-//                }
-                if (e.getMessage().equals("Funds below minimum balance")) {
-                    //usedCard.freeze();
-                    ObjectNode output = Output.getInstance().mapper.createObjectNode()
-                            .put("description", "You have reached the minimum amount of funds, the card will be frozen")
-                            .put("timestamp", input.getTimestamp());
-                    user.getTransactions().addTransaction(output, input.getAccount());
-                } else {
                     ObjectNode output = Output.getInstance().mapper.createObjectNode()
                             .put("description", "Insufficient funds")
                             .put("timestamp", input.getTimestamp());
                     user.getTransactions().addTransaction(output, input.getAccount());
-                }
             }
     }
 }

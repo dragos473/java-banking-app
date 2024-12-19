@@ -34,8 +34,6 @@ public class SplitPayment implements Action {
                         poorIBAN = u.getAccount(account).getIBAN();
                     }
                 } catch (Exception e) {
-                    //do nothing
-                    //err = true;
                     System.out.println(e.getLocalizedMessage());
                 }
             }

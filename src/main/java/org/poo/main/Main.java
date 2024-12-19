@@ -58,7 +58,7 @@ public final class Main {
 
         for (File file : sortedFiles) {
             String filepath = CheckerConstants.OUT_PATH + file.getName();
-//            if(!filepath.contains("19")) {
+//            if(!filepath.contains("20")) {
 //                continue;
 //            }
             File out = new File(filepath);

@@ -42,7 +42,14 @@ public class SavingsAccount implements Account {
 
     @Override
     public void removeCard(String cardNumber) {
-        cards.removeIf(c -> c.getCardNumber().equals(cardNumber));
+        //cards.removeIf(c -> c.getCardNumber().equals(cardNumber));
+        for (Card c : cards) {
+            if (c.getCardNumber().equals(cardNumber)) {
+                cards.remove(c);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Card not found");
     }
 
     @Override

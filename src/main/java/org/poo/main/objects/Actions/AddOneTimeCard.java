@@ -27,6 +27,8 @@ public class AddOneTimeCard implements Action {
             output.put("description", "New card created");
             output.put("timestamp", input.getTimestamp());
             user.getTransactions().addTransaction(output, user.getAccount(input.getAccount()).getIBAN());
+            System.out.println(input.getTimestamp() + ".Card created " + card.getCardNumber()+
+                    " (account: " + user.getAccount(input.getAccount()).getIBAN() + ")");
         } catch (Exception e) {
             e.printStackTrace();
         }

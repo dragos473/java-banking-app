@@ -18,6 +18,7 @@ public class AddCard implements Action {
             factory = new DefaultCardFactory();
         try {
             User user = Bank.getInstance().getUser(input.getEmail());
+
             card = factory.create(user.getAccount(input.getAccount()).getBalance());
             user.getAccount(input.getAccount()).addCard(card);
 
