@@ -6,8 +6,12 @@ import org.poo.main.objects.User;
 import org.poo.main.objects.accounts.Account;
 
 public class AddFunds implements Action {
+    /**
+     * Adds funds to the balance of the account
+     * @param input the input needed for the action
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         //TODO: add funds to the account
         for (User user : Bank.getInstance().getUsers()) {
                 for (Account account : user.getAccounts()) {

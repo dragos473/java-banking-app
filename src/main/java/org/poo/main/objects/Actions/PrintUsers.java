@@ -6,12 +6,8 @@ import org.poo.fileio.CommandInput;
 import org.poo.main.objects.Bank;
 import org.poo.main.objects.Output;
 import org.poo.main.objects.User;
-import org.poo.main.objects.accounts.Account;
 import org.poo.main.objects.accounts.Cards.Card;
-import org.poo.main.objects.accounts.ClassicAccount;
-import org.poo.main.objects.accounts.SavingsAccount;
 
-import java.lang.reflect.Array;
 
 public class PrintUsers implements Action {
     private Bank bank = Bank.getInstance();
@@ -36,8 +32,9 @@ public class PrintUsers implements Action {
                     if (card.isAvailable()) {
                         cardNode.put("status", "active");
                     } else {
-                        cardNode.put("status", "inactive");
+                        cardNode.put("status", "frozen");
                     }
+
                     cardArr.add(cardNode);
                 }
                 account.put("cards", cardArr);
@@ -45,9 +42,12 @@ public class PrintUsers implements Action {
             }
         return acc;
     }
-
+    /**
+     * Prints all the users in the bank, along with the accounts and cards they have
+     * @param input the input needed for the action
+     */
     @Override
-    public void execute(CommandInput input) {
+    public void execute(final CommandInput input) {
         ObjectNode out = JSON.mapper.createObjectNode();
         out.put("command", "printUsers");
         ArrayNode arr = JSON.mapper.createArrayNode();

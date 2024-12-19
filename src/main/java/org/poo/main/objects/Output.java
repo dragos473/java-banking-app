@@ -2,9 +2,6 @@ package org.poo.main.objects;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import java.sql.Array;
 
 public class Output {
     private static Output instance;
@@ -25,6 +22,9 @@ public class Output {
         }
         return instance;
     }
+    /**
+     * Method to delete the instance of the Output, preventing tests from overlapping
+     */
     public static void deleteInstance() {
         instance = null;
 
