@@ -20,3 +20,5 @@ A robust, Java-based e-banking engine designed to handle high-volume account ope
 **Data Processing:** JSON(Jackson) for structured I/O.
 
 **Architecture:** Modular OOP design with a focus on inheritance and encapsulation.
+
+This repository contains the core transaction engine. For the enterprise-grade refactor involving design patterns and business account logic, see the [java-banking-app-improved](https://github.com/dragos473/java-banking-app-improved).
