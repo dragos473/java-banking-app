@@ -1,5 +1,5 @@
 ## Java Banking System – Core Engine
-A robust, Java-based e-banking engine designed to handle high-volume account operations, multi-currency transactions, and automated reporting. This project focuses on **Object-Oriented Programing (OOP)** and **Data Integrity ** within a financial context.
+A robust, Java-based e-banking engine designed to handle high-volume account operations, multi-currency transactions, and automated reporting. This project focuses on **Object-Oriented Programming (OOP)** and **Data Integrity** within a financial context.
 
 **🚀 Key Features**
 
